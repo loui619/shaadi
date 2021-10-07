@@ -1,25 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+import React,{useState,useEffect} from "react";
+import './style.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {
+  BrowserRouter,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import Login from './components/Login';
+import UserDetails from './components/UserDetails';
+const  App=()=> {
+  const [auth,setAuth] = useState(false);
+  useEffect(()=>{
+    if(sessionStorage.getItem("username") && sessionStorage.getItem("password") && sessionStorage.getItem("username") == 'nikhilouis619@gmail.com' && sessionStorage.getItem("password") == 'test'){
+      setAuth(true)
+    } 
+  },[])
+  
+  const clickAlert = (username,password) => {
+   if(username=='nikhilouis619@gmail.com' && password=="test"){
+    setAuth(true);
+   }
+   else{
+     alert('failure')
+   }
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+      {
+        auth ?  <UserDetails /> : <Login data="Click here" onChildClick={clickAlert} />
+              
+      }
+      </BrowserRouter>
+      
     </div>
   );
 }
-
 export default App;
